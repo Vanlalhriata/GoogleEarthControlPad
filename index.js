@@ -11,7 +11,11 @@ app.get('/Control', function(req, res){
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  
+	socket.on('touchmove', function(e){
+		io.emit('touchmove', e);
+	})
+
 });
 
 http.listen(3000, function(){

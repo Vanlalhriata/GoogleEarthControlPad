@@ -34,12 +34,17 @@
 
 		});
 
-		var lastTouches;
+		var lastSingleTouchPosition = {x: 0, y: 0};
 
 		function onTouchStart(e){
 
-			$('#msg').html(e.type);
-			
+			var touches = e.originalEvent.touches;
+
+			if (!touches[1]){
+				// If single touch, save as last position
+				lastSingleTouchPosition.x = touches[0].pageX;
+				lastSingleTouchPosition.y = touches[0].pageY;
+			}
 
 		}
 
@@ -56,6 +61,14 @@
 			// Transmit touch data
 			if (!touches[1]){
 				// Single touch
+
+				var delta = {x: touches[0].pageX - lastSingleTouchPosition.x,
+							 y: touches[0].pageY - lastSingleTouchPosition.y};
+
+				lastSingleTouchPosition.x = touches[0].pageX;
+				lastSingleTouchPosition.y = touches[0].pageY;
+
+				socket.emit('touchmove', delta)
 			}
 		}
 
