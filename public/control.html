@@ -1,0 +1,72 @@
+<!doctype HTML>
+<html>
+<head>
+
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+
+</head>
+
+<body>
+
+	<div style="width: 100%;">
+		<div id="msg" style="height: 40px; background: wheat;"></div>
+		<div id="pad" style="height: 300px; background: red;"></div>
+	</div>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+
+    	var socket = io();
+
+    </script>
+
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+
+			//$('#pad').on('pointermove MSPointerMove touchmove', onTouchMove);
+			$('#pad').on('touchstart', onTouchStart);
+			$('#pad').on('touchmove', onTouchMove);
+			$('#pad').on('touchend', onTouchEnd);
+			$('#msg').html('Control pad');
+
+		});
+
+		var lastTouches;
+
+		function onTouchStart(e){
+
+			$('#msg').html(e.type);
+			
+
+		}
+
+		function onTouchMove(e){
+
+			var touches = e.originalEvent.touches;
+
+			// Log touch
+			$('#msg').html(e.type + ': ' + touches[0].pageX);
+			if (touches[1]){
+				$('#msg').html($('#msg').html() + ' ' + touches[1].pageX);
+			}
+
+			// Transmit touch data
+			if (!touches[1]){
+				// Single touch
+			}
+		}
+
+		function onTouchEnd(e){
+
+			$('#msg').html(e.type);
+
+		}
+
+	</script>
+
+</body>
+
+</html>

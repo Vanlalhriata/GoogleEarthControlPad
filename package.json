@@ -1,0 +1,9 @@
+{
+  "name": "google-earth-remote-control",
+  "version": "0.0.1",
+  "description": "Google Earth controlled remotely",
+  "dependencies": {
+    "express": "^4.10.1",
+    "socket.io": "^1.2.0"
+  }
+}
