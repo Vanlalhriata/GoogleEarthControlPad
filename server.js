@@ -14,7 +14,11 @@ io.on('connection', function(socket){
   
 	socket.on('touchmove', function(e){
 		io.emit('touchmove', e);
-	})
+	});
+
+	socket.on('zoomToHotspot', function(){
+		io.emit('zoomToHotspot');
+	});
 
 });
 

@@ -20,7 +20,7 @@
 	<script type="text/javascript">
 
 		var ge;
-		google.load("earth", "1", {"other_params":"sensor=true_or_false"});
+		google.load("earth", "1", {"other_params": false});
 
 		function init() {
 			google.earth.createInstance('map3d', initCB, failureCB);
@@ -43,10 +43,11 @@
 		$(document).on('ready', function(){
 
 			var speed = 1;
+			var lookAt;
 
 			socket.on('touchmove', function(e){
 				
-				var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+				lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
 
 				// Pan amount should be reduced as range is reduced
 				var rangeFactor = lookAt.getRange() / 25000000;
@@ -55,6 +56,19 @@
 				lookAt.setLatitude(lookAt.getLatitude() + (e.y * speed * rangeFactor));
 				ge.getView().setAbstractView(lookAt);
 
+			});
+
+			socket.on('zoomToHotspot', function(){
+				console.log('Zoom clicked');
+				lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+				lookAt.setLongitude(73.507452);
+				lookAt.setLatitude(18.407656);
+				lookAt.setRange(5000);
+				lookAt.setTilt(75);
+
+				ge.getOptions().setFlyToSpeed(1);
+				ge.getView().setAbstractView(lookAt);
+				ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
 			});
 
 		})
