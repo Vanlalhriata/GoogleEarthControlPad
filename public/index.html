@@ -30,6 +30,7 @@
 			ge = instance;
 			ge.getWindow().setVisibility(true);
 			ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);	// Needed for continuous view change
+			ge.getNavigationControl().setStreetViewEnabled(true);
 		}
 
 		function failureCB(errorCode) {
@@ -52,8 +53,15 @@
 				// Pan amount should be reduced as range is reduced
 				var rangeFactor = lookAt.getRange() / 25000000;
 
-				lookAt.setLongitude(lookAt.getLongitude() - (e.x * speed * rangeFactor));
-				lookAt.setLatitude(lookAt.getLatitude() + (e.y * speed * rangeFactor));
+				// x and y changes based on the camera's heading (facing direction)
+				// getHeading value starts at north = 0 degrees and increases counter-clockwise
+				// heading starts at east = 0 radians and increases counter-clockwise
+				var heading = (lookAt.getHeading() * Math.PI / 180);
+				var x = (e.x * Math.cos(heading)) - (e.y * Math.sin(heading));
+				var y = (e.x * Math.sin(heading)) + (e.y * Math.cos(heading));
+
+				lookAt.setLongitude(lookAt.getLongitude() - (x * speed * rangeFactor));
+				lookAt.setLatitude(lookAt.getLatitude() + (y * speed * rangeFactor));
 				ge.getView().setAbstractView(lookAt);
 
 			});
@@ -61,10 +69,14 @@
 			socket.on('zoomToHotspot', function(){
 				console.log('Zoom clicked');
 				lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-				lookAt.setLongitude(73.507452);
-				lookAt.setLatitude(18.407656);
-				lookAt.setRange(5000);
-				lookAt.setTilt(75);
+				lookAt.setLongitude(73.509534);
+				lookAt.setLatitude(18.3969121);
+				lookAt.setRange(10);
+				lookAt.setTilt(80);
+
+				var viewerOptions = ge.createViewerOptions('');
+				viewerOptions.setOption(ge.OPTION_STREET_VIEW, ge.OPTION_STATE_ENABLED);
+				lookAt.setViewerOptions(viewerOptions);
 
 				ge.getOptions().setFlyToSpeed(1);
 				ge.getView().setAbstractView(lookAt);
