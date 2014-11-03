@@ -20,6 +20,14 @@ io.on('connection', function(socket){
 		io.emit('zoomToHotspot');
 	});
 
+	socket.on('zoomToHotspot2', function(){
+		io.emit('zoomToHotspot2');
+	});
+
+	socket.on('zoomToArial', function(){
+		io.emit('zoomToArial');
+	});
+
 });
 
 http.listen(3000, function(){

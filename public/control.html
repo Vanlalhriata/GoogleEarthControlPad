@@ -9,9 +9,13 @@
 <body>
 
 	<div style="width: 100%;">
-		<div id="msg" style="height: 40px; background: wheat;"></div>
-		<div id="pad" style="height: 300px; background: red;"></div>
-		<button id="zoomToHotspotButton" style="height: 40px; width: 100px; background: blue;">Switch to Street View</button>
+		<div id="msg" style="height: 40px; background: wheat; margin: 10px"></div>
+		<div id="pad" style="height: 300px; background: #123; margin: 10px"></div>
+		<div style="margin: 10px 5%">
+			<button id="zoomToHotspotButton" style="height: 50px; width: 32%; background: gray; display: inline;">Switch to Lavasa Street View</button>
+			<button id="zoomToArialButton" style="height: 50px; width: 32%; background: gray; display: inline;">Switch to Lavasa Arial View</button>
+			<button id="zoomToHotspotButton2" style="height: 50px; width: 32%; background: gray; display: inline;">Switch to New York Street View</button>
+		</div>
 	</div>
 	
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -81,6 +85,14 @@
 
 		$('#zoomToHotspotButton').on('click', function(){
 			socket.emit('zoomToHotspot');
+		})
+
+		$('#zoomToHotspotButton2').on('click', function(){
+			socket.emit('zoomToHotspot2');
+		})
+
+		$('#zoomToArialButton').on('click', function(){
+			socket.emit('zoomToArial');
 		})
 
 	</script>
